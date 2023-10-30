@@ -224,16 +224,16 @@ const CharacterTable = () => {
               ))}
             </tbody>
           </table>
+
+          {/* Pagination */}
+          <Pagination
+            currentPage={urlPage || 1}
+            totalPages={totalPages}
+            handlePagination={handlePagination}
+            handlePageSelect={handlePageSelect}
+          />
         </>
       )}
-
-      {/* Pagination */}
-      <Pagination
-        currentPage={urlPage || 1}
-        totalPages={totalPages}
-        handlePagination={handlePagination}
-        handlePageSelect={handlePageSelect}
-      />
       {/* Character Detail Modal */}
       {showDetail && selectedCharacter && (
         <CharacterDetail

@@ -1,46 +1,23 @@
-# Getting Started with Create React App
+Steps to run: In the project directory:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
+### `npm install`
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Tech used:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+We used redux and typescript in this project and emotion for CSS. The UI is written using vanilla javascript components without the use of external libraries barring the use o a react-modal.
 
-### `npm test`
+We have extensively used CSS for a better visual appeal. Instead of importing css, CSS styles have een written on the same file. This is done to imprve readability of the styles used along with faster debugging in case of any issues.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Challenges faced:
 
-### `npm run build`
+This was my first time working on Redux so it was exciting and a great larning oppurtunity.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The data to be displayed was huge, with over 40 pages. This made the pagination component look highly cluttured. I created a custom pagination component without using any external libraries to make it look better and work effectively
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Sorting was a challenge. I was able to sort the data however, in an ideal case I would have wanted to sort all 48 or so pages worth of data at nce. Ideally, this should be done by the server but this api does not support sorting. Sorting such a large data set would involve 40+ api calls and be an expensive task that would affect the performance, although there might be work arounds to make the performance better, we still have to make over 40 api calls. I decided to sort the page I was in to showcase my ability to be able to sort wile keeping the application working efficiently
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+When implementing searching, the api returns a 404 error if no character matches the search input. Had it ust returned an empty array, it would be easier to display that no data was found. I manged the error, and displayed a simple string "No data found" in case user searchs for a string that does not return any value
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+There was no way to reset the search input based on the requirements, but I decided to add a clear button to return the table to it's initial state
