@@ -4,13 +4,13 @@ Steps to run: In the project directory:
 
 ### `npm start`
 
-Tech used:
+#Tech used:
 
 We used redux and typescript in this project and emotion for CSS. The UI is written using vanilla javascript components without the use of external libraries barring the use o a react-modal.
 
 We have extensively used CSS for a better visual appeal. Instead of importing css, CSS styles have een written on the same file. This is done to imprve readability of the styles used along with faster debugging in case of any issues.
 
-Challenges faced:
+#Challenges faced:
 
 This was my first time working on Redux so it was exciting and a great larning oppurtunity.
 
