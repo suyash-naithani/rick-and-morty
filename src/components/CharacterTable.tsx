@@ -12,11 +12,13 @@ import {
   selectAllCharacters,
   selectCharacterPagination,
   selectNoData,
+  toggleFavourites,
 } from "../redux/slices/characterSlice";
 import CharacterDetail from "./CharacterDetail";
 import { MdArrowDropUp, MdArrowDropDown } from "react-icons/md";
 import { css } from "@emotion/react";
 import SearchInput from "./SearchInput";
+import { RootState } from "../redux/store";
 
 type SortDirection = "ascending" | "descending";
 
@@ -45,10 +47,15 @@ const tableStyle = css`
 const CharacterTable = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
+  const urlId = searchParams.get("id")
+  console.log('urlId',urlId)
+
   const noDataFromRedux = useSelector(selectNoData);
+  const favoriteChars = useSelector((state:RootState)=>state.characters.favorites)
   const characters = useSelector(selectAllCharacters);
   const { totalPages } = useSelector(selectCharacterPagination);
-  const [showDetail, setShowDetail] = useState(false);
+  const [showDetail, setShowDetail] = useState(urlId?true:false);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [noData, setNoData] = useState<boolean>(false);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
@@ -59,13 +66,18 @@ const CharacterTable = () => {
     direction: SortDirection;
   } | null>(null);
 
-  const [searchParams] = useSearchParams();
+  
   const urlPage = Number(searchParams.get("page"));
   const urlName = searchParams.get("name"); // Extract search term from the URL
 
   useEffect(() => {
     setNoData(noDataFromRedux);
-  }, [noDataFromRedux]);
+  }, [navigate, noDataFromRedux, urlId]);
+
+
+  useEffect(()=>{
+    urlId && setSelectedCharacter(characters[Number(urlId)]);
+  }, [urlId, characters])
 
   useEffect(() => {
     // setNoData(false);
@@ -86,6 +98,7 @@ const CharacterTable = () => {
   }, [dispatch, urlPage, urlName]);
 
   const handleShowDetail = (character: Character) => {
+    navigate(`page=${urlPage}&id=${character.id}`)
     setSelectedCharacter(character);
     setShowDetail(true);
   };
@@ -163,6 +176,10 @@ const CharacterTable = () => {
     dispatch(fetchCharacters({ page: 1 })); // Fetch the first page of characters
     navigate(`?page=1`); // Navigate back to the first page in the URL
   };
+const favouriteCharacters= characters.filter(character=>favoriteChars.includes(character.id))
+  const handleFavourite=(id:number)=>{
+    dispatch(toggleFavourites(id))
+  }
 
   return (
     <div css={tableContainerStyle}>
@@ -220,10 +237,22 @@ const CharacterTable = () => {
                       Details
                     </button>
                   </td>
+                  <td>
+                    <button onClick={() => handleFavourite(character.id)}>
+                      {favoriteChars.includes(character.id)?"Unfavourite":"Favourite"}
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <h2>
+            {favouriteCharacters.map((value)=><div>
+              {value.name}
+            </div>
+            
+            )}
+          </h2>
 
           {/* Pagination */}
           <Pagination

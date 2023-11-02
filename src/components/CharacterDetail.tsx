@@ -41,7 +41,7 @@ const CharacterDetail: React.FC<CharacterDetailProps> = ({
   return (
     <>
       <Modal
-        isOpen={isOpen}
+        isOpen={true}
         onRequestClose={() => setIsOpen(false)}
         style={{
           content: {

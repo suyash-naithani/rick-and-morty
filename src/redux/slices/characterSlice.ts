@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Define a type for the slice state
@@ -24,6 +24,7 @@ interface CharactersState {
   currentPage: number;
   totalPages: number;
   noData: boolean;
+  favorites:number[]
 }
 
 type SearchParams = {
@@ -39,6 +40,7 @@ const initialState: CharactersState = {
   currentPage: 1,
   totalPages: 0,
   noData: false,
+  favorites:[]
 };
 
 export const fetchCharacters = createAsyncThunk<
@@ -89,7 +91,13 @@ export const searchCharacters = createAsyncThunk<
 const characterSlice = createSlice({
   name: "characters",
   initialState,
-  reducers: {},
+  reducers: {toggleFavourites:((state,action:PayloadAction<number>)=>{
+    if(state.favorites.indexOf(action.payload)>0)
+    state.favorites.splice(state.favorites.indexOf(action.payload),1)
+    else
+    state.favorites.push(action.payload)
+  })
+},
   extraReducers: (builder) => {
     builder
       .addCase(fetchCharacters.pending, (state) => {
@@ -132,6 +140,8 @@ const characterSlice = createSlice({
 
 export const selectNoData = (state: { characters: CharactersState }) =>
   state.characters.noData;
+
+  export const {toggleFavourites} = characterSlice.actions
 
 // Selectors
 export const selectAllCharacters = (state: { characters: CharactersState }) =>
